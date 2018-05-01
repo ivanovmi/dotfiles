@@ -1,0 +1,5 @@
+deb http://ppa.launchpad.net/elementary-os/daily/ubuntu xenial main
+deb-src http://ppa.launchpad.net/elementary-os/daily/ubuntu xenial main
+#deb http://ppa.launchpad.net/elementary-os/stable/ubuntu xenial main
+#deb-src http://ppa.launchpad.net/elementary-os/stable/ubuntu xenial main
+
