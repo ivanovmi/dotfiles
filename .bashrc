@@ -86,9 +86,17 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias weather='curl -4 http://wttr.in/Saratov'
+
+function weather {
+		city=${1:-Saratov};
+		curl -4 http://wttr.in/$city;
+}
+
 alias cat='ccat'
+alias vim='nvim'
+alias vimdiff='nvim -d'
 alias check_network='while true; do ping -c 1 ya.ru; if [ $? -eq 0 ] ; then alert; break; fi; done'
+alias termbin='nc termbin.com 9999'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -221,7 +229,7 @@ alias bd=". bd -si"
 alias bd=". bd -si"
 source <(kubectl completion bash)
 
-alias df='df -h | grep sd |\
+alias df='df -h | head -n 1; df -h | grep sd |\
     sed -e "s_/dev/sda[1-9]_\x1b[34m&\x1b[0m_" |\
     sed -e "s_/dev/sd[b-z][1-9]_\x1b[33m&\x1b[0m_" |\
     sed -e "s_[,0-9]*[MG]_\x1b[36m&\x1b[0m_" |\
@@ -230,3 +238,5 @@ alias df='df -h | grep sd |\
     sed -e "s_/mnt/[-_A-Za-z0-9]*_\x1b[34;1m&\x1b[0m_"'
 
 alias copy="xclip -selection c"
+alias myip="python -c 'import psutil; import terminaltables; addrs=psutil.net_if_addrs(); table_data=[[\"Interface\", \"Address\"]]; [table_data.append([i, addrs[i][0].address]) for i in addrs]; table = terminaltables.AsciiTable(table_data); print table.table'"
+export MANPAGER="/usr/bin/most"

@@ -1,4 +1,4 @@
-.idea
+.idea/*
 .tox
 .eggs/
 *.egg-info/

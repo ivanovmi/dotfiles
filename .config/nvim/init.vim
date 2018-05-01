@@ -51,8 +51,9 @@ set incsearch
 set number
 highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 
-set tabstop=2
+set tabstop=4
 set shiftwidth=4
+set expandtab
 set showmatch
 set smartcase
 
