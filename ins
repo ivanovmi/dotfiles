@@ -1,0 +1,1 @@
+  FL=(); for pkg in $(\cat apt)  ; do sudo apt install -y $pkg ; if [[ $? -ne 0 ]]; then FL+=($pkg);fi ;  done;echo 'Failed pakcages list:'; echo $FL; 

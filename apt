@@ -37,14 +37,13 @@ gparted
 gzip
 hardening-includes
 hddtemp
-heroku
 hh
 htop
 icedtea-netx:amd64
 icedtea-netx-common
 jq
+software-properties-common
 kodi
-kodi-bin
 links2
 lm-sensors
 lolcat
@@ -73,6 +72,7 @@ python-pip
 python3-pip
 rake
 rbenv
+ruby-dev
 remmina
 remmina-common
 remmina-plugin-rdp
@@ -80,6 +80,7 @@ remmina-plugin-vnc
 screenfetch
 shellcheck
 skypeforlinux
+spotify-client
 sqlite3
 sshfs
 strace

@@ -1,5 +1,4 @@
 bundler
-did_you_mean
 fusuma
 json
 mechanize
@@ -8,3 +7,5 @@ sinatra
 sinatra-json
 thor
 vlc-client
+telegram-bot-ruby
+unicode

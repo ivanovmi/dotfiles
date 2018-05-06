@@ -108,10 +108,11 @@ setup_repos() {
   set -x
 }
 
-install_packages() {
+install_apt_packages() {
   set +o pipefail
   set +x
   echo 'Checking if there is an unsigned repos...'
+  wget -O - http://repo.acestream.org/keys/acestream.public.key | apt-key add -
   pubkeys_list=$(apt -qq update 2>&1 | grep 'NO_PUBKEY' | awk '{print $NF}')
   if [[ -n $pubkeys_list ]]; then
     echo "Found $(echo $pubkeys_list | wc -w) unsigned keys, processing..."
@@ -123,7 +124,7 @@ install_packages() {
 
 setup_brew() {
   brew_pkgs_list=$1
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+  brew help || sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
   brew tap burntsushi/ripgrep https://github.com/BurntSushi/ripgrep.git
   for pkg in $(cat $brew_pkgs_list); do
     brew install $pkg
@@ -133,17 +134,40 @@ setup_brew() {
 setup_ngrok() {
   mkdir -p $HOME/bin
   wget -O /tmp/ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-  unzip /tmp/ngrok.zip -d $HOME/bin
+  unzip -o /tmp/ngrok.zip -d $HOME/bin
 }
 
-#install_pip_packages() {}
+install_pip_packages() {
+  pip_pkgs_list=$1
+  pip install -U -r $pip_pkgs_list
+}
 
-#install_gem_packages() {}
+install_gem_packages() {
+  gem_pkgs_list=$1
+  cat $gem_pkgs_list | xargs -n 1 gem install
+}
+
+install_snap_packages() {
+  snap_pkgs_list=$1
+  cat $snap_pkgs_list | xargs -n 1 -I {} snap install {} --classic
+}
+
+setup_docker_service() {
+  cat > /etc/docker/daemon.json << EOF
+{
+  "bip": "192.168.20.5/24"
+}
+EOF
+ usermod -aG docker mivanov
+ systemctl restart docker
+}
 
 #setup_dotfiles
 exesudo setup_repos ./repos_list
-exesudo install_packages
-#install_pip_packages
-#install_gem_packages
+exesudo install_apt_packages
+exesudo install_snap_packages ./snap
+exesudo install_pip_packages ./pip
+exesudo install_gem_packages ./gem
 setup_brew ./linuxbrew
 setup_ngrok
+exesudo setup_docker_service

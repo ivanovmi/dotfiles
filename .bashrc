@@ -227,7 +227,7 @@ if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
 
 alias bd=". bd -si"
 alias bd=". bd -si"
-source <(kubectl completion bash)
+#source <(kubectl completion bash)
 
 alias df='df -h | head -n 1; df -h | grep sd |\
     sed -e "s_/dev/sda[1-9]_\x1b[34m&\x1b[0m_" |\
