@@ -112,6 +112,8 @@ setup_repos() {
 install_apt_packages() {
   #set +o pipefail
   #set +x
+  apt_pkgs_list=$1
+
   echo 'Checking if there is an unsigned repos...'
   pubkeys_list=$(apt -qq update 2>&1 | grep 'NO_PUBKEY' | awk '{print $NF}')
   if [[ -n $pubkeys_list ]]; then
@@ -120,7 +122,7 @@ install_apt_packages() {
   fi
   apt update
   FL=()
-  for pkg in $(cat apt) ; do
+  for pkg in $(cat $apt_pkgs_list) ; do
     apt install -y $pkg
     if [[ $? -ne 0 ]]; then
       FL+=($pkg)
@@ -160,14 +162,17 @@ install_snap_packages() {
   cat $snap_pkgs_list | xargs -n 1 -I {} snap install {} --classic
 }
 
-setup_cerebro() {
-  mkdir -p $HOME/bin
-  wget -O $HOME/bin/cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
+install_npm_packages() {
+  npm_pkgs_list=$1
+  cat $npm_pkgs_list | xargs -n 1 npm install -g
 }
 
-setup_dockstation() {
+clone_bin_from_url () {
+  bin_name=$1
+  url=$2
   mkdir -p $HOME/bin
-  wget -O $HOME/bin/dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
+  wget -O $HOME/bin/$bin_name $url
+  chmod +x $HOME/bin/$bin_name
 }
 
 setup_docker_service() {
@@ -177,17 +182,20 @@ setup_docker_service() {
 }
 EOF
  usermod -aG docker mivanov
+ docker-compose --version || curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+ chmod +x /usr/local/bin/docker-compose
  systemctl restart docker
 }
 
 #setup_dotfiles
-exesudo setup_repos ./repos_list
-exesudo install_apt_packages
-exesudo install_snap_packages ./snap
-exesudo install_pip_packages ./pip
-exesudo install_gem_packages ./gem
-setup_brew ./linuxbrew
+exesudo setup_repos ./pkgs/repos_list
+exesudo install_apt_packages ./pkgs/apt
+exesudo install_snap_packages ./pkgs/snap
+exesudo install_pip_packages ./pkgs/pip
+exesudo install_gem_packages ./pkgs/gem
+exesudo install_npm_packages ./pkgs/npm
+setup_brew ./pkgs/linuxbrew
 setup_ngrok
-setup_cerebro
-setup_dockstation
+clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
+clone_bin_from_url dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
 exesudo setup_docker_service
