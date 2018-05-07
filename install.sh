@@ -1,5 +1,6 @@
 #!/bin/bash
-set -xeu
+#set -x
+set -eu
 set -o pipefail
 
 # Little trick, should be rewrited
@@ -99,7 +100,7 @@ exesudo() {
 #setup_dotfiles() {}
 
 setup_repos() {
-  set +x
+  #set +x
   repo_dir=$1
   for repo in $(ls $repo_dir); do
     echo "Copying $repo to /etc/apt/sources.list.d..."
@@ -109,17 +110,24 @@ setup_repos() {
 }
 
 install_apt_packages() {
-  set +o pipefail
-  set +x
+  #set +o pipefail
+  #set +x
   echo 'Checking if there is an unsigned repos...'
-  wget -O - http://repo.acestream.org/keys/acestream.public.key | apt-key add -
   pubkeys_list=$(apt -qq update 2>&1 | grep 'NO_PUBKEY' | awk '{print $NF}')
   if [[ -n $pubkeys_list ]]; then
     echo "Found $(echo $pubkeys_list | wc -w) unsigned keys, processing..."
     echo $pubkeys_list | xargs -n 1 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys
-  else
-    apt update
   fi
+  apt update
+  FL=()
+  for pkg in $(cat apt) ; do
+    apt install -y $pkg
+    if [[ $? -ne 0 ]]; then
+      FL+=($pkg)
+    fi
+  done
+  echo 'Failed pakcages list:'
+  echo $FL
 }
 
 setup_brew() {
@@ -152,6 +160,16 @@ install_snap_packages() {
   cat $snap_pkgs_list | xargs -n 1 -I {} snap install {} --classic
 }
 
+setup_cerebro() {
+  mkdir -p $HOME/bin
+  wget -O $HOME/bin/cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
+}
+
+setup_dockstation() {
+  mkdir -p $HOME/bin
+  wget -O $HOME/bin/dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
+}
+
 setup_docker_service() {
   cat > /etc/docker/daemon.json << EOF
 {
@@ -170,4 +188,6 @@ exesudo install_pip_packages ./pip
 exesudo install_gem_packages ./gem
 setup_brew ./linuxbrew
 setup_ngrok
+setup_cerebro
+setup_dockstation
 exesudo setup_docker_service
