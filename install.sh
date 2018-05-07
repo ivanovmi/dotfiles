@@ -141,9 +141,22 @@ setup_env() {
   export USERNAME=$(whoami)
 }
 
-setup_env
+configure_git_repos() {
+  git_list=$1
+  IFS=$'\n'
+  for repo in $(cat $git_list); do
+    repo_name=$(echo $repo | awk '{print $1}')
+    path=$(echo $repo | awk '{print $2}' | awk '{gsub("\\","/"); print}')
+    git clone $repo_name $(eval echo $path)
+  done
+}
 
-while getopts "apgsnbd" opt; do
+configure_vim() {
+  vim +PluginInstall +qall
+}
+
+setup_env
+while getopts "apgsnbdiv" opt; do
   case $opt in
     a)
       setup_dotfiles $DIRNAME/dotfiles
@@ -153,11 +166,13 @@ while getopts "apgsnbd" opt; do
       exesudo install_pip_packages $DIRNAME/pkgs/pip
       exesudo install_gem_packages $DIRNAME/pkgs/gem
       exesudo install_npm_packages $DIRNAME/pkgs/npm
+      configure_git_repos $DIRNAME/pkgs/git
       setup_brew $DIRNAME/pkgs/brew
       setup_ngrok
       clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
       clone_bin_from_url dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
       exesudo setup_docker_service
+      configure_vim
     ;;
     p)
       exesudo install_pip_packages $DIRNAME/pkgs/pip
@@ -172,10 +187,16 @@ while getopts "apgsnbd" opt; do
       exesudo install_npm_packages $DIRNAME/pkgs/npm
     ;;
     b)
-      install_brew_packages $DIRNAME/pkgs/brew
+      setup_brew $DIRNAME/pkgs/brew
     ;;
     d)
       setup_dotfiles $DIRNAME/dotfiles
+    ;;
+    i)
+      configure_git_repos $DIRNAME/pkgs/git
+    ;;
+    v)
+      configure_vim
     ;;
   esac
 done
