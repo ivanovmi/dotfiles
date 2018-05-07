@@ -39,8 +39,11 @@ exesudo() {
 
 setup_dotfiles() {
   dotfiles_dir=$1
+  local dirname=$(echo $dotfiles_dir | awk -F'/' '{ print $NF }')
   for file in $(find $dotfiles_dir -type f); do
-    homedir_file=$HOME${file#$DIRNAME/dotfiles}
+    fn=$(echo $file | awk -F'/' '{print $NF}')
+    homedir_file=$HOME${file#$DIRNAME/$dirname}
+    mkdir -p ${homedir_file%$fn}
     if [[ -f $homedir_file  ]]; then
       rm -f $homedir_file
     fi
