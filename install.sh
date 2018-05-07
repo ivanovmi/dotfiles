@@ -1,37 +1,9 @@
 #!/bin/bash
-#set -x
 set -eu
 set -o pipefail
 
 # Little trick, should be rewrited
 exesudo() {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# EXESUDO
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-#
-# Purpose:
-# -------------------------------------------------------------------- #
-# Execute a function with sudo
-#
-# Params:
-# -------------------------------------------------------------------- #
-# $1:   string: name of the function to be executed with sudo
-#
-# Usage:
-# -------------------------------------------------------------------- #
-# exesudo "funcname" followed by any param
-#
-# -------------------------------------------------------------------- #
-# Created 01 September 2012              Last Modified 02 September 2012
-
-    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-    #
-    # LOCAL VARIABLES:
-    #
-    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-
-    #
-    # I use underscores to remember it's been passed
     local _funcname_="$1"
 
     local params=( "$@" )               ## array containing all params passed here
@@ -40,31 +12,10 @@ exesudo() {
     local regex                         ## regular expression
     local func                          ## function source
 
-
-    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-    #
-    # MAIN CODE:
-    #
-    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-
-    #
-    # WORKING ON PARAMS:
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    #
-    # Shift the first param (which is the name of the function)
     unset params[0]              ## remove first element
     # params=( "${params[@]}" )     ## repack array
 
-
-    #
-    # WORKING ON THE TEMPORARY FILE:
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     content="#!/bin/bash\n\n"
-
-    #
-    # Write the params array
     content="${content}params=(\n"
 
     regex="\s+"
@@ -80,38 +31,33 @@ exesudo() {
 
     content="$content)\n"
     echo -e "$content" > "$tmpfile"
-
-    #
-    # Append the function source
     echo "#$( type "$_funcname_" )" >> "$tmpfile"
-
-    #
-    # Append the call to the function
     echo -e "\n$_funcname_ \"\${params[@]}\"\n" >> "$tmpfile"
-
-
-    #
-    # DONE: EXECUTE THE TEMPORARY FILE WITH SUDO
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     sudo bash "$tmpfile"
     rm "$tmpfile"
 }
 
-#setup_dotfiles() {}
+setup_dotfiles() {
+  dotfiles_dir=$1
+  for file in $(find $dotfiles_dir -type f); do
+    homedir_file=$HOME${file#$DIRNAME/dotfiles}
+    if [[ -f $homedir_file  ]]; then
+      rm -f $homedir_file
+    fi
+    ln -s $file $homedir_file
+  done
+}
 
 setup_repos() {
-  #set +x
   repo_dir=$1
   for repo in $(ls $repo_dir); do
     echo "Copying $repo to /etc/apt/sources.list.d..."
     cp $repo_dir/$repo /etc/apt/sources.list.d/.
   done
-  set -x
 }
 
 install_apt_packages() {
   #set +o pipefail
-  #set +x
   apt_pkgs_list=$1
 
   echo 'Checking if there is an unsigned repos...'
@@ -181,21 +127,53 @@ setup_docker_service() {
   "bip": "192.168.20.5/24"
 }
 EOF
- usermod -aG docker mivanov
+ usermod -aG docker $USERNAME
  docker-compose --version || wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m)
  chmod +x /usr/local/bin/docker-compose
  systemctl restart docker
 }
 
-#setup_dotfiles
-exesudo setup_repos ./pkgs/repos_list
-exesudo install_apt_packages ./pkgs/apt
-exesudo install_snap_packages ./pkgs/snap
-exesudo install_pip_packages ./pkgs/pip
-exesudo install_gem_packages ./pkgs/gem
-exesudo install_npm_packages ./pkgs/npm
-setup_brew ./pkgs/linuxbrew
-setup_ngrok
-clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
-clone_bin_from_url dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
-exesudo setup_docker_service
+setup_env() {
+  export DIRNAME=$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)
+  export USERNAME=$(whoami)
+}
+
+setup_env
+
+while getopts "apgsnbd" opt; do
+  case $opt in
+    a)
+      #setup_dotfiles $DIRNAME/dotfiles
+      exesudo setup_repos $DIRNAME/pkgs/repos_list
+      exesudo install_apt_packages $DIRNAME/pkgs/apt
+      exesudo install_snap_packages $DIRNAME/pkgs/snap
+      exesudo install_pip_packages $DIRNAME/pkgs/pip
+      exesudo install_gem_packages $DIRNAME/pkgs/gem
+      exesudo install_npm_packages $DIRNAME/pkgs/npm
+      setup_brew $DIRNAME/pkgs/brew
+      setup_ngrok
+      clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
+      clone_bin_from_url dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
+      exesudo setup_docker_service
+    ;;
+    p)
+      exesudo install_pip_packages $DIRNAME/pkgs/pip
+    ;;
+    g)
+      exesudo install_gem_packages $DIRNAME/pkgs/gem
+    ;;
+    s)
+      exesudo install_snap_packages $DIRNAME/pkgs/snap
+    ;;
+    n)
+      exesudo install_npm_packages $DIRNAME/pkgs/npm
+    ;;
+    b)
+      install_brew_packages $DIRNAME/pkgs/brew
+    ;;
+    d)
+      setup_dotfiles $DIRNAME/dotfiles
+    ;;
+  esac
+done
+
