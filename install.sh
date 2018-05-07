@@ -146,7 +146,7 @@ setup_env
 while getopts "apgsnbd" opt; do
   case $opt in
     a)
-      #setup_dotfiles $DIRNAME/dotfiles
+      setup_dotfiles $DIRNAME/dotfiles
       exesudo setup_repos $DIRNAME/pkgs/repos_list
       exesudo install_apt_packages $DIRNAME/pkgs/apt
       exesudo install_snap_packages $DIRNAME/pkgs/snap
