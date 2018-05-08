@@ -159,6 +159,10 @@ configure_git_repos() {
 }
 
 configure_vim() {
+  git clone https://github.com/powerline/fonts.git /tmp/fonts --depth=1
+  pushd /tmp/fonts
+  ./install.sh
+  popd
   vim +PluginInstall +qall
 }
 
