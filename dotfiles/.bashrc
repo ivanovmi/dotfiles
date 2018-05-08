@@ -211,9 +211,6 @@ export PATH=$GROOVY_HOME/bin:$GO_HOME:$PATH:$BREW_BIN
 if [[ $TERM == xterm ]]; then
     TERM=xterm-256color
 fi
-#source /home/mivanov/.oh-my-git/prompt.sh
-
-source ~/.bash/mysql-colorize/mysql-colorize.bash
 
 # add this configuration to ~/.bashrc
 export HH_CONFIG=hicolor         # get more colors

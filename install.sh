@@ -71,7 +71,11 @@ install_apt_packages() {
   FL=()
   apt_list=$(cat "$apt_pkgs_list")
   for pkg in $apt_list ; do
-    apt install -y "$pkg"
+      if [[ $(dpkg -l "$pkg") ]]; then
+      echo "$pkg is already installed, skipping.."
+    else
+      apt install -y "$pkg"
+    fi
     if [[ $? -ne 0 ]]; then
       FL+=($pkg)
     fi
