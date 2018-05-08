@@ -6,6 +6,7 @@ nokogiri
 sinatra
 sinatra-json
 thor
+tmuxinator
 vlc-client
 telegram-bot-ruby
 unicode

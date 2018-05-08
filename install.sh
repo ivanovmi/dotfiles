@@ -51,7 +51,6 @@ setup_dotfiles() {
 setup_repos() {
   repo_dir=$1
   repo_list=$(ls "$repo_dir")
-#  for repo in $(ls "$repo_dir"); do
   for repo in $repo_list; do
     echo "Copying $repo to /etc/apt/sources.list.d..."
     cp "$repo_dir/$repo" /etc/apt/sources.list.d/.
@@ -216,6 +215,7 @@ while getopts "adgcAPGSNBDh" opt; do
       setup_brew "$DIRNAME"/pkgs/brew
     ;;
     D)
+      clone_bin_from_url tmuxinator.bash https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.bash
       setup_dotfiles "$DIRNAME"/dotfiles
     ;;
     g)
