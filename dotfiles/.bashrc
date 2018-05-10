@@ -197,14 +197,15 @@ source ~/bin/tmuxinator.bash
 eval $(thefuck --alias)
 
 export GROOVY_HOME=/opt/groovy
-export GO_HOME=/usr/local/go/bin
+export GOPATH=/home/mivanov/go
+export GO_HOME=/home/mivanov/.go/bin
 export BREW_HOME=/home/linuxbrew/.linuxbrew
 export BREW_BIN=$BREW_HOME/bin
 
 export MANPATH="$BREW_HOME/share/man:$MANPATH"
 export INFOPATH="$BREW_HOME/share/info:$INFOPATH"
 
-export PATH=$GROOVY_HOME/bin:$GO_HOME:$PATH:$BREW_BIN
+export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$PATH:$BREW_BIN
 
 [[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
 

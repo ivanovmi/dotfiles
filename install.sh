@@ -246,6 +246,12 @@ configure_vim() {
   vim +PluginInstall +qall
 }
 
+setup_go() {
+  wget -O /tmp/golang_installer https://storage.googleapis.com/golang/getgo/installer_linux
+  chmod +x /tmp/golang_installer
+  /tmp/golang_installer
+}
+
 print_help() {
   echo '-h - print this help'
   echo '-a - bootstrap all'
@@ -262,7 +268,7 @@ print_help() {
 }
 
 setup_env
-while getopts "adgcAPGSNBDh" opt; do
+while getopts "adgcAPGSNBDho" opt; do
   case $opt in
     a)
       setup_dotfiles "$DIRNAME"/dotfiles
@@ -315,6 +321,9 @@ while getopts "adgcAPGSNBDh" opt; do
     ;;
     h)
       print_help
+    ;;
+    o)
+      setup_go
     ;;
   esac
 done
