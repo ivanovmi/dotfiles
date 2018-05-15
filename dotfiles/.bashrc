@@ -189,7 +189,7 @@ function mkdircd {
   mkdir -p "$@" && eval cd "\"\$$#\"";
 }
 
-export PS1="\[\033[01;31m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h\[\033[01;33m\] \w \[[\$(date +%H:%M:%S)]\033[0;92m\]\$(parse_git_branch) \[\033[01;35m\]\$~> \[\033[00m\]"
+export PS1="\[\033[01;31m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h\[\033[01;33m\] \w \[\\033[0;92m\]\$(parse_git_branch) \[\033[01;35m\]\$~> \[\033[00m\]"
 export EDITOR='vim'
 
 source ~/bin/tmuxinator.bash
