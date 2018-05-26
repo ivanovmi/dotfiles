@@ -252,6 +252,10 @@ setup_go() {
   /tmp/golang_installer
 }
 
+setup_sudo() {
+  grep pwfeedback /etc/sudoers || echo "Defaults        pwfeedback" >> /etc/sudoers
+}
+
 print_help() {
   echo '-h - print this help'
   echo '-a - bootstrap all'
@@ -268,6 +272,7 @@ print_help() {
 }
 
 setup_env
+exesudo setup_sudo
 while getopts "adgcAPGSNBDho" opt; do
   case $opt in
     a)
