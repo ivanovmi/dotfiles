@@ -5,6 +5,7 @@ apt-rdepends
 apt-transport-https
 apt-utils
 baobab
+bd
 bluez-obexd
 bpython
 bpython3
