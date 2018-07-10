@@ -289,6 +289,7 @@ while getopts "adgcAPGSNBDho" opt; do
       clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
       clone_bin_from_url dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
       clone_bin_from_url tmuxinator.bash https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.bash
+      clone_bin_from_url git-recall https://raw.githubusercontent.com/Fakerr/git-recall/master/git-recall
       exesudo setup_docker_service
       configure_vim
     ;;
