@@ -1,1 +1,2 @@
 https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+https://github.com/erikw/tmux-powerline $HOME/.tmux-powerline
