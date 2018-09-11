@@ -12,23 +12,23 @@ exesudo() {
   unset params[0]              ## remove first element
   # params=( "${params[@]}" )     ## repack array
 
-  content="#!/bin/bash\n\n"
-  content="${content}source "$DIRNAME/scripts/common.sh"\n\n"
-  content="${content}params=(\n"
+  content="#!/bin/bash\\n\\n"
+  content="${content}source "$DIRNAME/scripts/common.sh"\\n\\n"
+  content="${content}params=(\\n"
 
-  regex="\s+"
+  regex="\\s+"
   for param in "${params[@]}"; do
     if [[ "$param" =~ $regex ]]; then
-      content="${content}\t\"${param}\"\n"
+      content="${content}\\t\"${param}\"\\n"
     else
-      content="${content}\t${param}\n"
+      content="${content}\\t${param}\\n"
     fi
   done
 
-  content="$content)\n"
+  content="$content)\\n"
   echo -e "$content" > "$tmpfile"
   echo "#$( type "$_funcname_" )" >> "$tmpfile"
-  echo -e "\n$_funcname_ \"\${params[@]}\"\n" >> "$tmpfile"
+  echo -e "\\n$_funcname_ \"\${params[@]}\"\\n" >> "$tmpfile"
   sudo bash "$tmpfile"
   rm "$tmpfile"
 }
@@ -68,7 +68,7 @@ setup_repos() {
     e_arrow "Copying $repo to /etc/apt/sources.list.d..."
     cp "$repo_dir/$repo" /etc/apt/sources.list.d/.
     if [[ $? -ne 0 ]]; then
-      FL+=($repo)
+      FL+=("$repo")
     fi
   done
   if [[ ${#FL[@]} -eq 0 ]]; then
@@ -100,7 +100,7 @@ install_apt_packages() {
       apt install -y "$pkg"
     fi
     if [[ $? -ne 0 ]]; then
-      FL+=($pkg)
+      FL+=("$pkg")
     fi
   done
   if [[ ${#FL[@]} -eq 0 ]]; then
@@ -121,7 +121,7 @@ setup_brew() {
   for pkg in $brew_list; do
     brew install "$pkg"
     if [[ $? -ne 0 ]]; then
-      FL+=($pkg)
+      FL+=("$pkg")
     fi
   done
   if [[ ${#FL[@]} -eq 0 ]]; then
@@ -253,7 +253,7 @@ setup_go() {
 }
 
 setup_sudo() {
-  grep pwfeedback /etc/sudoers || echo "Defaults        pwfeedback" >> /etc/sudoers
+  grep pwfeedback /etc/sudoers > /dev/null 2>&1 || echo "Defaults        pwfeedback" >> /etc/sudoers
 }
 
 print_help() {
@@ -330,6 +330,10 @@ while getopts "adgcAPGSNBDho" opt; do
     ;;
     o)
       setup_go
+    ;;
+    *)
+      echo "Invalid option"
+      print_help
     ;;
   esac
 done
