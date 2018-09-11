@@ -92,10 +92,27 @@ function weather {
 		curl -4 http://wttr.in/$city;
 }
 
+function check_host {
+    host=${1}
+    count=1
+    while true ; do
+        ping -c 1 $host > /dev/null 2>&1;
+        if [ $? -eq 0 ] ; then
+            alert;
+            echo "Host $host is accessible after $count retries...";
+            break;
+        else
+            echo "Host unaccessible for now after $count retries, sleeping 5..."
+        fi
+        let count+=1
+    done
+}
+
+
 alias cat='ccat'
 alias vim='nvim'
 alias vimdiff='nvim -d'
-alias check_network='while true; do ping -c 1 ya.ru; if [ $? -eq 0 ] ; then alert; break; fi; done'
+alias check_network='check_host ya.ru'
 alias termbin='nc termbin.com 9999'
 
 # Add an "alert" alias for long running commands.  Use like so:
