@@ -253,7 +253,7 @@ setup_go() {
 }
 
 setup_sudo() {
-  grep pwfeedback /etc/sudoers > /dev/null 2>&1 || echo "Defaults        pwfeedback" >> /etc/sudoers
+  grep -q pwfeedback /etc/sudoers || echo "Defaults        pwfeedback" >> /etc/sudoers
 }
 
 print_help() {
