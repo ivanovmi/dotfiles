@@ -28,11 +28,10 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nvie/vim-togglemouse'
 " Dockerfile syntax
 Plugin 'ekalinin/Dockerfile.vim'
-" Auto-closing brackets
-Plugin 'rstacruz/vim-closer'
-Plugin 'tpope/vim-endwise'
 " groovy syntax plugin
 Plugin 'vim-scripts/groovy.vim'
+" Identation plugin
+Plugin 'Yggdroot/indentLine'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -116,6 +115,12 @@ highlight ColorColumn ctermbg=magenta
 " highlight 79th character where sensible.
 autocmd BufEnter *.py call matchadd('ColorColumn', '\%79v', 100)
 autocmd BufEnter *.rst call matchadd('ColorColumn', '\%79v', 100)
+
+" indentLine settings
+let g:indentLine_char = '|'
+let g:indentLine_leadingSpaceEnabled = 1
+let g:indentLine_leadingSpaceChar = '.'
+let g:indentLine_color_term = 239
 
 " set W to be 'sudo w'
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
