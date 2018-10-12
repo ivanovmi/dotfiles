@@ -9,7 +9,7 @@ exesudo() {
   local tmpfile="/dev/shm/$RANDOM"    ## temporary file
   local regex                         ## regular expression
 
-  unset params[0]              ## remove first element
+  unset "params[0]"              ## remove first element
   # params=( "${params[@]}" )     ## repack array
 
   content="#!/bin/bash\\n\\n"
