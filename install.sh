@@ -250,6 +250,9 @@ setup_go() {
   wget -O /tmp/golang_installer https://storage.googleapis.com/golang/getgo/installer_linux
   chmod +x /tmp/golang_installer
   /tmp/golang_installer
+  go get github.com/posener/complete/gocomplete
+  go install github.com/posener/complete/gocomplete
+  $HOME/go/bin/gocomplete -install
 }
 
 setup_sudo() {

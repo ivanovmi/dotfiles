@@ -256,3 +256,5 @@ alias df='df -h | head -n 1; df -h | grep sd |\
 alias copy="xclip -selection c"
 alias myip="python -c 'import psutil; import terminaltables; addrs=psutil.net_if_addrs(); table_data=[[\"Interface\", \"Address\"]]; [table_data.append([i, addrs[i][0].address]) for i in addrs]; table = terminaltables.AsciiTable(table_data); print table.table'"
 export MANPAGER="/usr/bin/most"
+
+complete -C /home/mivanov/go/bin/gocomplete go

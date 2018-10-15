@@ -32,6 +32,8 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'vim-scripts/groovy.vim'
 " Identation plugin
 Plugin 'Yggdroot/indentLine'
+" Golang plugin
+Plugin 'fatih/vim-go'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
