@@ -99,13 +99,14 @@ function check_host {
     host=${1}
     count=1
     while true ; do
-        ping -c 1 $host > /dev/null 2>&1;
+        ping -c 1 -w 2 $host > /dev/null 2>&1;
         if [ $? -eq 0 ] ; then
             alert;
             echo "Host $host is accessible after $count retries...";
             break;
         else
             echo "Host unaccessible for now after $count retries, sleeping 5..."
+            sleep 5
         fi
         let count+=1
     done
