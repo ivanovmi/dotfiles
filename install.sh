@@ -201,6 +201,26 @@ clone_bin_from_url () {
   fi
 }
 
+install_package_from_github () {
+  e_header "Stage: install from github repo $1"
+  repo_name=$1
+  e_arrow "Downloading from $repo_name..."
+  curl -s "https://api.github.com/repos/${repo_name}/releases/latest" \
+      | grep -E "browser_download_url.*amd.*deb" \
+      | awk -F'\"' '{print $4}' \
+      | head -1 \
+      | wget -O /tmp/tmp.deb -qi -
+  if [[ $? -ne 0 ]]; then
+    e_error "Failed to download package from ${repo_name}"
+  fi
+  dpkg -i /tmp/tmp.deb && rm -f /tmp/tmp.deb
+  if [[ $? -ne 0 ]]; then
+    e_error "Failed to install package from ${repo_name}"
+  else
+    e_success "Successfully installed from ${repo_name}"
+  fi
+}
+
 setup_docker_service() {
   e_header "Stage: setup docker"
   cat > /etc/docker/daemon.json << EOF
@@ -293,6 +313,7 @@ while getopts "adgcAPGSNBDho" opt; do
       clone_bin_from_url dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
       clone_bin_from_url tmuxinator.bash https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.bash
       clone_bin_from_url git-recall https://raw.githubusercontent.com/Fakerr/git-recall/master/git-recall
+      exesudo install_package_from_github sharkdp/bat
       exesudo setup_docker_service
       configure_vim
     ;;
@@ -324,6 +345,7 @@ while getopts "adgcAPGSNBDho" opt; do
     ;;
     g)
       configure_git_repos "$DIRNAME"/pkgs/git
+      exesudo install_package_from_github sharkdp/bat
     ;;
     c)
       configure_vim
