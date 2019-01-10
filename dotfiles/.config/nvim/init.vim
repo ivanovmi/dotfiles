@@ -19,6 +19,8 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'vim-syntastic/syntastic'
 " Color schemes
 Plugin 'flazz/vim-colorschemes'
+" Colorschemes, probably
+Plugin 'crusoexia/vim-monokai'
 " NerdTree
 Plugin 'scrooloose/nerdtree'
 " Status bar
@@ -34,9 +36,22 @@ Plugin 'vim-scripts/groovy.vim'
 Plugin 'Yggdroot/indentLine'
 " Golang plugin
 Plugin 'fatih/vim-go'
+" Jinja supoort
+Plugin 'lepture/vim-jinja'
+" Hex colors in vim
+Plugin 'lilydjwg/colorizer'
+" Rainbow color for parentheses
+Plugin 'luochen1990/rainbow'
+" Highlight current buffer under cursor
+Plugin 'RRethy/vim-illuminate'
+" Git diff plugin
+Plugin 'airblade/vim-gitgutter'
+" Auto-pair brackets
+Plugin 'jiangmiao/auto-pairs'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+
 filetype plugin indent on    " required
 " Brief help
 " :PluginList       - lists configured plugins
@@ -47,6 +62,9 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 syntax on
+colorscheme monokai
+let g:monokai_term_italic=1
+let g:monokai_gui_italic=1
 set hlsearch
 set incsearch
 set number
@@ -99,6 +117,8 @@ let g:jedi#use_splits_not_buffers = "right"
 let g:jedi#use_tabs_not_buffers = 0
 autocmd FileType python setlocal completeopt-=preview
 
+" Rainbow parentheses
+let g:rainbow_active = 1
 " nerdtree
 nmap <C-n> :NERDTreeToggle<CR>
 
@@ -115,7 +135,12 @@ autocmd BufEnter *.py exec "set listchars=tab:\uBB\uBB"
 highlight ColorColumn ctermbg=magenta
 
 " highlight 79th character where sensible.
-autocmd BufEnter *.py call matchadd('ColorColumn', '\%79v', 100)
+augroup python
+    au!
+    autocmd FileType python set colorcolumn=80
+    autocmd FileType python highlight ColorColumn ctermbg=0 guibg=lightgrey
+ augroup END
+
 autocmd BufEnter *.rst call matchadd('ColorColumn', '\%79v', 100)
 
 " indentLine settings

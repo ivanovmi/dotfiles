@@ -259,3 +259,5 @@ alias myip="python -c 'import psutil; import terminaltables; addrs=psutil.net_if
 export MANPAGER="/usr/bin/most"
 
 complete -C /home/mivanov/go/bin/gocomplete go
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

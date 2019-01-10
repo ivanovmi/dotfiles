@@ -49,13 +49,13 @@ setup_dotfiles() {
     e_arrow "Linking $fn to ${homedir_file%$fn}..."
     ln -s "$file" "$homedir_file"
     if [[ $? -ne 0 ]]; then
-      FL+=($file)
+      FL+=("$file")
     fi
   done
   if [[ ${#FL[@]} -eq 0 ]]; then
     e_success "All files successfully linked!"
   else
-    e_error "Failed to link $(IFS=" "; echo ${FL[*]})"
+    e_error "Failed to link $(IFS=" "; echo "${FL[*]}")"
   fi
 }
 
@@ -74,7 +74,7 @@ setup_repos() {
   if [[ ${#FL[@]} -eq 0 ]]; then
     e_success "Repos successfully copied!"
   else
-    e_error "Failed to copy repos $(IFS=" "; echo ${FL[*]})"
+    e_error "Failed to copy repos $(IFS=" "; echo "${FL[*]}")"
   fi
 }
 
@@ -106,7 +106,7 @@ install_apt_packages() {
   if [[ ${#FL[@]} -eq 0 ]]; then
     e_success "Packages successfully installed!"
   else
-    e_error "Failed to install pkgs $(IFS=" "; echo ${FL[*]})"
+    e_error "Failed to install pkgs $(IFS=" "; echo "${FL[*]}")"
   fi
 }
 
@@ -127,7 +127,7 @@ setup_brew() {
   if [[ ${#FL[@]} -eq 0 ]]; then
     e_success "Packages successfully installed!"
   else
-    e_error "Failed to install pkgs $(IFS=" "; echo ${FL[*]})"
+    e_error "Failed to install pkgs $(IFS=" "; echo "${FL[*]}")"
   fi
 }
 
@@ -272,7 +272,7 @@ setup_go() {
   /tmp/golang_installer
   go get github.com/posener/complete/gocomplete
   go install github.com/posener/complete/gocomplete
-  $HOME/go/bin/gocomplete -install
+  "${HOME}/go/bin/gocomplete" -install
 }
 
 setup_sudo() {
