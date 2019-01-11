@@ -239,6 +239,7 @@ export HISTFILESIZE=32768        # increase history file size (default is 500)
 export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
 export HISTIGNORE="ls:ls *:cd:cd -:pwd:exit:date:* --help:glances"
 export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file sync
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # if this is interactive shell, then bind hh to Ctrl-r (for Vi mode check doc)
 if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
 
@@ -259,5 +260,3 @@ alias myip="python -c 'import psutil; import terminaltables; addrs=psutil.net_if
 export MANPAGER="/usr/bin/most"
 
 complete -C /home/mivanov/go/bin/gocomplete go
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
