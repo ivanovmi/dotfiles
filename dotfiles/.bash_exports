@@ -1,0 +1,26 @@
+export PS1="\\[\\033[01;31m\\]\\u\\[\\033[01;33m\\]@\\[\\033[01;36m\\]\\h\\[\\033[01;33m\\] \\w\\[\\033[0;92m\\]\$(parse_git_branch)\\[\\033[01;35m\\] \\$~> \\[\\033[00m\\]"
+export EDITOR='nvim'
+
+source ~/bin/tmuxinator.bash
+
+export GROOVY_HOME=/opt/groovy
+export GOPATH=/home/mivanov/go
+export GO_HOME=/home/mivanov/.go/bin
+export GOBIN=/home/mivanov/go/bin
+export BREW_HOME=/home/linuxbrew/.linuxbrew
+export BREW_BIN=$BREW_HOME/bin
+
+export MANPATH="$BREW_HOME/share/man:$MANPATH"
+export INFOPATH="$BREW_HOME/share/info:$INFOPATH"
+
+export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$GOBIN:$PATH:$BREW_BIN
+
+[[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# if this is interactive shell, then bind hh to Ctrl-r (for Vi mode check doc)
+if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
+
+export MANPAGER="/usr/bin/most"
+
+complete -C /home/mivanov/go/bin/gocomplete go

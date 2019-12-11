@@ -119,3 +119,6 @@ virtualbox-5.2
 libinput-tools
 sshuttle
 numix-icon-theme-circle
+python-neovim
+python3-neovim
+ruby-neovim

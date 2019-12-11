@@ -8,8 +8,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+  *) return;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -36,89 +36,39 @@ shopt -s checkwinsize
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+  debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+  xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-function weather {
-		city=${1:-Saratov};
-		curl -4 http://wttr.in/$city;
-}
-
-function check_host {
-    host=${1}
-    count=1
-    while true ; do
-        ping -c 1 -w 2 $host > /dev/null 2>&1;
-        if [ $? -eq 0 ] ; then
-            alert;
-            echo "Host $host is accessible after $count retries...";
-            break;
-        else
-            echo "Host unaccessible for now after $count retries, sleeping 5..."
-            sleep 5
-        fi
-        let count+=1
-    done
-}
-
-
-alias cat='ccat'
-alias vim='nvim'
-alias vimdiff='nvim -d'
-alias check_network='check_host ya.ru'
-alias termbin='nc termbin.com 9999'
-
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -126,7 +76,11 @@ alias termbin='nc termbin.com 9999'
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
+fi
+
+if [ -f ~/.bash_functions ]; then
+  . ~/.bash_functions
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -145,90 +99,64 @@ fi
 # If you want to exclude a cmd from being printed see line 156
 case "$TERM" in
 xterm*|rxvt*|terminator)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\$(print_title)\a\]$PS1"
-    __el_LAST_EXECUTED_COMMAND=""
-    print_title ()
-    {
-        __el_FIRSTPART=""
-        __el_SECONDPART=""
-        if [ "$PWD" == "$HOME" ]; then
-            __el_FIRSTPART=$(gettext --domain="pantheon-files" "Home")
-        else
-            if [ "$PWD" == "/" ]; then
-                __el_FIRSTPART="/"
-            else
-                __el_FIRSTPART="${PWD##*/}"
-            fi
-        fi
-        if [[ "$__el_LAST_EXECUTED_COMMAND" == "" ]]; then
-            echo "$__el_FIRSTPART"
-            return
-        fi
-        #trim the command to the first segment and strip sudo
-        if [[ "$__el_LAST_EXECUTED_COMMAND" == sudo* ]]; then
-            __el_SECONDPART="${__el_LAST_EXECUTED_COMMAND:5}"
-            __el_SECONDPART="${__el_SECONDPART%% *}"
-        else
-            __el_SECONDPART="${__el_LAST_EXECUTED_COMMAND%% *}"
-        fi
-        printf "%s: %s" "$__el_FIRSTPART" "$__el_SECONDPART"
-    }
-    put_title()
-    {
-        __el_LAST_EXECUTED_COMMAND="${BASH_COMMAND}"
-        printf "\033]0;%s\007" "$1"
-    }
+  PS1="\\[\\e]0;${debian_chroot:+($debian_chroot)}\$(print_title)\\a\\]$PS1"
+  __el_LAST_EXECUTED_COMMAND=""
+  print_title ()
+  {
+    __el_FIRSTPART=""
+    __el_SECONDPART=""
+    if [ "$PWD" == "$HOME" ]; then
+      __el_FIRSTPART=$(gettext --domain="pantheon-files" "Home")
+    else
+      if [ "$PWD" == "/" ]; then
+        __el_FIRSTPART="/"
+      else
+        __el_FIRSTPART="${PWD##*/}"
+      fi
+    fi
+    if [[ "$__el_LAST_EXECUTED_COMMAND" == "" ]]; then
+      echo "$__el_FIRSTPART"
+      return
+    fi
+    #trim the command to the first segment and strip sudo
+    if [[ "$__el_LAST_EXECUTED_COMMAND" == sudo* ]]; then
+      __el_SECONDPART="${__el_LAST_EXECUTED_COMMAND:5}"
+      __el_SECONDPART="${__el_SECONDPART%% *}"
+    else
+      __el_SECONDPART="${__el_LAST_EXECUTED_COMMAND%% *}"
+    fi
+    printf "%s: %s" "$__el_FIRSTPART" "$__el_SECONDPART"
+  }
+  put_title()
+  {
+    __el_LAST_EXECUTED_COMMAND="${BASH_COMMAND}"
+    printf "\\033]0;%s\\007" "$1"
+  }
 
-    # Show the currently running command in the terminal title:
-    # http://www.davidpashley.com/articles/xterm-titles-with-bash.html
-    update_tab_command()
-    {
-        # catch blacklisted commands and nested escapes
-        case "$BASH_COMMAND" in
-            *\033]0*|update_*|echo*|printf*|clear*|cd*)
-            __el_LAST_EXECUTED_COMMAND=""
-                ;;
-            *)
-            put_title "${BASH_COMMAND}"
-            ;;
-        esac
-    }
-    preexec_functions+=(update_tab_command)
-    ;;
+  # Show the currently running command in the terminal title:
+  # http://www.davidpashley.com/articles/xterm-titles-with-bash.html
+  update_tab_command()
+  {
+    # catch blacklisted commands and nested escapes
+    case "$BASH_COMMAND" in
+      *\\033]0*|update_*|echo*|printf*|clear*|cd*)
+      __el_LAST_EXECUTED_COMMAND=""
+      ;;
+      *)
+      put_title "${BASH_COMMAND}"
+      ;;
+    esac
+  }
+  preexec_functions+=(update_tab_command)
+  ;;
 *)
-    ;;
+;;
 esac
 
-function parse_git_branch {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
 
-function mkdircd {
-  mkdir -p "$@" && eval cd "\"\$$#\"";
-}
-
-export PS1="\[\033[01;31m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h\[\033[01;33m\] \w \[\\033[0;92m\]\$(parse_git_branch) \[\033[01;35m\]\$~> \[\033[00m\]"
-export EDITOR='vim'
-
-source ~/bin/tmuxinator.bash
-
-eval $(thefuck --alias)
-
-export GROOVY_HOME=/opt/groovy
-export GOPATH=/home/mivanov/go
-export GO_HOME=/home/mivanov/.go/bin
-export BREW_HOME=/home/linuxbrew/.linuxbrew
-export BREW_BIN=$BREW_HOME/bin
-
-export MANPATH="$BREW_HOME/share/man:$MANPATH"
-export INFOPATH="$BREW_HOME/share/info:$INFOPATH"
-
-export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$PATH:$BREW_BIN
-
-[[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
 
 if [[ $TERM == xterm ]]; then
-    TERM=xterm-256color
+  TERM=xterm-256color
 fi
 
 # add this configuration to ~/.bashrc
@@ -237,26 +165,9 @@ shopt -s histappend              # append new history items to .bash_history
 export HISTCONTROL=ignoreboth    #
 export HISTFILESIZE=32768        # increase history file size (default is 500)
 export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
-export HISTIGNORE="ls:ls *:cd:cd -:pwd:exit:date:* --help:glances"
+export HISTIGNORE="ls:ls *:cd:cd -:pwd:exit:date:* --help:glances:fg:bg:history"
 export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file sync
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# if this is interactive shell, then bind hh to Ctrl-r (for Vi mode check doc)
-if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
 
-alias bd=". bd -si"
-alias bd=". bd -si"
-#source <(kubectl completion bash)
-
-alias df='df -h | head -n 1; df -h | grep sd |\
-    sed -e "s_/dev/sda[1-9]_\x1b[34m&\x1b[0m_" |\
-    sed -e "s_/dev/sd[b-z][1-9]_\x1b[33m&\x1b[0m_" |\
-    sed -e "s_[,0-9]*[MG]_\x1b[36m&\x1b[0m_" |\
-    sed -e "s_[0-9]*%_\x1b[32m&\x1b[0m_" |\
-    sed -e "s_9[0-9]%_\x1b[31m&\x1b[0m_" |\
-    sed -e "s_/mnt/[-_A-Za-z0-9]*_\x1b[34;1m&\x1b[0m_"'
-
-alias copy="xclip -selection c"
-alias myip="python -c 'import psutil; import terminaltables; addrs=psutil.net_if_addrs(); table_data=[[\"Interface\", \"Address\"]]; [table_data.append([i, addrs[i][0].address]) for i in addrs]; table = terminaltables.AsciiTable(table_data); print table.table'"
-export MANPAGER="/usr/bin/most"
-
-complete -C /home/mivanov/go/bin/gocomplete go
+if [ -f ~/.bash_exports ]; then
+  . ~/.bash_exports
+fi

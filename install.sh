@@ -116,6 +116,7 @@ setup_brew() {
   e_arrow "Checking if brew installed"
   brew help || (e_dot "Brew bin not found, installing"; sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)")
   brew tap burntsushi/ripgrep https://github.com/BurntSushi/ripgrep.git
+  brew tap jesseduffield/lazydocker
   brew_list=$(cat "$brew_pkgs_list")
   FL=()
   for pkg in $brew_list; do

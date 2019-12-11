@@ -1,4 +1,5 @@
 blessings
+black
 coloredlogs
 cookiecutter
 flake8
@@ -8,6 +9,7 @@ isitup
 jedi
 netifaces
 pip
+pingtop
 progressbar2
 Pygments
 sshuttle
