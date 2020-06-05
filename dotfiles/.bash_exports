@@ -9,11 +9,12 @@ export GO_HOME=/home/mivanov/.go/bin
 export GOBIN=/home/mivanov/go/bin
 export BREW_HOME=/home/linuxbrew/.linuxbrew
 export BREW_BIN=$BREW_HOME/bin
+export KREW_PATH=$HOME/.krew/bin
 
 export MANPATH="$BREW_HOME/share/man:$MANPATH"
 export INFOPATH="$BREW_HOME/share/info:$INFOPATH"
 
-export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$GOBIN:$PATH:$BREW_BIN
+export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$GOBIN:$PATH:$BREW_BIN:$KREW_PATH
 
 [[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
 
@@ -24,3 +25,7 @@ if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
 export MANPAGER="/usr/bin/most"
 
 complete -C /home/mivanov/go/bin/gocomplete go
+
+if [[ $(date '+%m') == 12 ]]; then
+    export PS1="🎄 $PS1"
+fi

@@ -263,6 +263,9 @@ configure_vim() {
   pushd /tmp/fonts
   ./install.sh
   popd
+  e_arrow "Installing favorite font"
+  mkdir -p ~/.local/share/fonts
+  curl -fLo "$HOME/.local/share/fonts/Noto Mono Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/blob/2.0.0/patched-fonts/Noto/Mono/complete/Noto%20Mono%20Nerd%20Font%20Complete.ttf
   e_arrow "Install vim plugins"
   vim +PluginInstall +qall
 }
@@ -274,6 +277,11 @@ setup_go() {
   go get github.com/posener/complete/gocomplete
   go install github.com/posener/complete/gocomplete
   "${HOME}/go/bin/gocomplete" -install
+}
+
+install_albert() {
+  wget -O /tmp/albert.deb https://download.opensuse.org/repositories/home:/manuelschneid3r/Debian_9.0/amd64/albert_0.16.1_amd64.deb
+  dpkg -i /tmp/albert.deb
 }
 
 setup_sudo() {
@@ -307,6 +315,7 @@ while getopts "adgcAPGSNBDho" opt; do
       exesudo install_pip_packages "$DIRNAME"/pkgs/pip
       exesudo install_gem_packages "$DIRNAME"/pkgs/gem
       exesudo install_npm_packages "$DIRNAME"/pkgs/npm
+      exesudo install_albert
       configure_git_repos "$DIRNAME"/pkgs/git
       setup_brew "$DIRNAME"/pkgs/brew
       setup_ngrok

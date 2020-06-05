@@ -27,6 +27,15 @@ function show_time {
   echo "${COLOR_GRAY}$(date +%H:%M)${COLOR_NONE}"
 }
 
+function get_time {
+  while sleep 1 ; do
+    tput sc
+    tput cup 0 $(($(tput cols)-11))
+    echo -e "\e[31m`date +%r`\e[39m"
+    tput rc
+  done &
+}
+
 function mkdircd {
   mkdir -p "$@" && eval cd "\"\$$#\"";
 }

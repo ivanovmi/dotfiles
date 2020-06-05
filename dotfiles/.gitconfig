@@ -3,6 +3,8 @@
 	name = Mikhail Ivanov
 [core]
 	excludesfile = ~/.gitignore_global
+[pager]
+    diff = diff-so-fancy | less --tabs=4 -RFX
 [alias]
   graph = log --pretty=oneline -n 20 --graph --abbrev-commit
   contributors = shortlog --summary --numbered

@@ -16,7 +16,7 @@ Plugin 'nvie/vim-flake8'
 " No-BS Python code folding for Vim
 Plugin 'tmhedberg/SimpylFold'
 " Fuzzy file, buffer, mru, tag, etc finder
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 " Using the jedi autocompletion library for VIM.
 Plugin 'davidhalter/jedi-vim'
 " Syntax check
@@ -90,6 +90,16 @@ Plugin 'andymass/vim-matchup'
 Plugin 'ambv/black',
 " Dim inactive windows
 Plugin 'blueyed/vim-diminactive'
+" Some fancy icons
+Plugin 'ryanoasis/vim-devicons'
+" Project-wide search
+Plugin 'eugen0329/vim-esearch'
+" undo tree
+Plugin 'simnalamburt/vim-mundo'
+" convert one-liners to multi
+Plugin 'AndrewRadev/splitjoin.vim'
+" Clap - finder and dispatcher
+Plugin 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -113,11 +123,14 @@ set incsearch
 set number
 highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 
+set encoding=UTF-8
+
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set showmatch
 set smartcase
+set spelllang=en,ru
 
 " Easy window navigation
 map <C-h> <C-w>h
@@ -125,6 +138,11 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" More logic in split
+set splitbelow
+set splitright
+
+" syntastic
 let g:syntastic_always_populate_loc_list  = 1
 let g:syntastic_auto_loc_list             = 1
 let g:syntastic_mode_map                  = { 'mode': 'active',
@@ -151,14 +169,17 @@ let g:jedi#popup_select_first       = 0
 let g:jedi#completions_enabled      = 0
 let g:jedi#completions_command      = ""
 let g:jedi#show_call_signatures     = 0
-let g:jedi#goto_assignments_command = "<leader>da"
-let g:jedi#goto_definitions_command = "<leader>dd"
-let g:jedi#documentation_command    = "<leader>dk"
-let g:jedi#usages_command           = "<leader>du"
-let g:jedi#rename_command           = "<leader>dr"
+let g:jedi#goto_assignments_command = "<Leader>da"
+let g:jedi#goto_definitions_command = "<Leader>dd"
+let g:jedi#documentation_command    = "<Leader>dk"
+let g:jedi#usages_command           = "<Leader>du"
+let g:jedi#rename_command           = "<Leader>dr"
 let g:jedi#use_splits_not_buffers   = "right"
 let g:jedi#use_tabs_not_buffers     = 0
 autocmd FileType python setlocal completeopt-=preview
+
+" webdevicons settings
+let g:webdevicons_conceal_nerdtree_brackets = 0
 
 " NERD Commenter
 let g:NERDSpaceDelims            = 1
@@ -170,6 +191,8 @@ let g:NERDCompactSexyComs        = 1
 let g:rainbow_active = 1
 " nerdtree
 nmap <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = "\u2b95"
+let g:NERDTreeDirArrowCollapsible = "\u2b07"
 " tagbar
 nmap <C-b> :TagbarToggle<CR>
 
@@ -199,8 +222,12 @@ let g:indentLine_char                = '|'
 let g:indentLine_leadingSpaceEnabled = 1
 let g:indentLine_leadingSpaceChar    = '.'
 let g:indentLine_color_term          = 239
+" Fix nerdTree and indentLine behaviour
+autocmd BufEnter NERD_tree* :LeadingSpaceDisable
 
 " crossover settings
+" this plugin breaks timeoutlen variable, do not forget to comment
+" 2nd string in crossover/plugin/crossover after installation
 let g:crossover_normal_color = 236
 let g:crossover_insert_color = 235
 
@@ -213,15 +240,44 @@ let g:go_highlight_fields            = 1
 let g:go_highlight_types             = 1
 let g:go_highlight_operators         = 1
 let g:go_highlight_build_constraints = 1
-let g:go_def_mode = 'gopls'
-let g:go_info_mode = 'gopls'
+let g:go_fmt_experimental            = 1
+let g:go_def_mode                    = 'gopls'
+let g:go_info_mode                   = 'gopls'
 
 " Diminactive settings
 hi ColorColumn ctermbg=235
 let g:diminactive_enable_focus = 1
 
-"
+" esearch settings
+let g:esearch = {
+  \ 'adapter':          'rg',
+  \ 'backend':          'nvim',
+  \ 'out':              'win',
+  \ 'batch_size':       1000,
+  \ 'use':              ['visual', 'hlsearch', 'last', 'word_under_cursor'],
+  \ 'default_mappings': 1,
+  \}
+
+" gitgutter
 nnoremap <c-U> :GitGutterUndoHunk<CR>
+" vim-clap
+let g:clap_prompt_format = '%spinner%%forerunner_status%%provider_id%: '
+let g:clap_insert_mode_only = v:true
+let g:clap_selected_sign = {
+  \ "text": "ᐅ",
+  \ "texthl": "ClapSelectedSign",
+  \ "linehl": "ClapSelected"
+\ }
+let g:clap_current_selection_sign = {
+  \ "text": "ᐉ",
+  \ "texthl": "ClapCurrentSelectionSign",
+  \ "linehl": "ClapCurrentSelection"
+\ }
+nmap <Leader>g :Clap<CR>
+" vim-mundo
+set undofile
+set undodir=~/.vim/undo
+nmap <C-m> :MundoToggle<CR>
 
 " set W to be 'sudo w'
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
@@ -241,4 +297,3 @@ command! Wq wq
 "let g:airline_theme = 'molokai'
 let g:airline_powerline_fonts = 1
 " set laststatus=2
-" let mapleader = ","
