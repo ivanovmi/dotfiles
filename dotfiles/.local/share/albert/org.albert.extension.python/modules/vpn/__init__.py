@@ -4,8 +4,9 @@
 VPN toggle based on nmcli
 """
 
-from albertv0 import FuncAction, Item, iconLookup
+from albertv0 import FuncAction, Item
 import subprocess
+import os
 
 __iid__ = "PythonInterface/v0.1"
 __prettyname__ = "VPN Toggle"
@@ -14,7 +15,7 @@ __trigger__ = "vpn "
 __author__ = "mivanov"
 __dependencies__ = ["nmcli"]
 
-iconPath = iconLookup("vpn")
+iconPath = os.path.dirname(__file__) + "/vpn.svg"
 
 
 def filter_vpn(active=False):

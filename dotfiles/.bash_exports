@@ -29,3 +29,6 @@ complete -C /home/mivanov/go/bin/gocomplete go
 if [[ $(date '+%m') == 12 ]]; then
     export PS1="🎄 $PS1"
 fi
+
+eval "$(starship init bash)"
+

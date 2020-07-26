@@ -100,6 +100,8 @@ Plugin 'simnalamburt/vim-mundo'
 Plugin 'AndrewRadev/splitjoin.vim'
 " Clap - finder and dispatcher
 Plugin 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+" Suda - fix for 'sudo tee' hack in vim
+Plugin 'lambdalisue/suda.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -278,7 +280,8 @@ nmap <Leader>g :Clap<CR>
 set undofile
 set undodir=~/.vim/undo
 nmap <C-m> :MundoToggle<CR>
-
+" suda
+let g:suda_smart_edit = 1
 " set W to be 'sudo w'
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
