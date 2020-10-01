@@ -1,2 +1,2 @@
-deb https://apt.dockerproject.org/repo ubuntu-xenial main
+# deb https://apt.dockerproject.org/repo ubuntu-xenial main
 

@@ -319,7 +319,8 @@ while getopts "adgcAPGSNBDho" opt; do
       configure_git_repos "$DIRNAME"/pkgs/git
       setup_brew "$DIRNAME"/pkgs/brew
       setup_ngrok
-      clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
+      # Disabled due albert
+      # clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
       clone_bin_from_url dockstation https://github.com/DockStation/dockstation/releases/download/v1.4.1/dockstation-1.4.1-x86_64.AppImage
       clone_bin_from_url tmuxinator.bash https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.bash
       clone_bin_from_url git-recall https://raw.githubusercontent.com/Fakerr/git-recall/master/git-recall
