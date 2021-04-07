@@ -14,3 +14,7 @@
   insteadOf = "gh:"
   pushInsteadOf = "gh:"
   pushInsteadOf = "git://github.com/"
+[cola]
+	spellcheck = false
+[url "ssh://mivanov@gerrit.mcp.mirantis.com:29418/"]
+	insteadOf = https://gerrit.mcp.mirantis.com/a/

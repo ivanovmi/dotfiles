@@ -4,9 +4,10 @@ export EDITOR='nvim'
 source ~/bin/tmuxinator.bash
 
 export GROOVY_HOME=/opt/groovy
-export GOPATH=/home/mivanov/go
-export GO_HOME=/home/mivanov/.go/bin
-export GOBIN=/home/mivanov/go/bin
+export RUBY_PATH=$HOME/.rbenv/shims
+export GOPATH=$HOME/go
+export GO_HOME=$HOME/.go/bin
+export GOBIN=$HOME/go/bin
 export BREW_HOME=/home/linuxbrew/.linuxbrew
 export BREW_BIN=$BREW_HOME/bin
 export KREW_PATH=$HOME/.krew/bin
@@ -14,7 +15,7 @@ export KREW_PATH=$HOME/.krew/bin
 export MANPATH="$BREW_HOME/share/man:$MANPATH"
 export INFOPATH="$BREW_HOME/share/info:$INFOPATH"
 
-export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$GOBIN:$PATH:$BREW_BIN:$KREW_PATH
+export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$GOBIN:$PATH:$BREW_BIN:$KREW_PATH:$RUBY_PATH:$HOME/bin
 
 [[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
 
@@ -30,5 +31,5 @@ if [[ $(date '+%m') == 12 ]]; then
     export PS1="🎄 $PS1"
 fi
 
-eval "$(starship init bash)"
-
+# eval "$(starship init bash)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

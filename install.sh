@@ -114,7 +114,7 @@ setup_brew() {
   e_header "Stage: installing brew pkgs"
   brew_pkgs_list=$1
   e_arrow "Checking if brew installed"
-  brew help || (e_dot "Brew bin not found, installing"; sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)")
+  brew help || (e_dot "Brew bin not found, installing"; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)")
   brew tap burntsushi/ripgrep https://github.com/BurntSushi/ripgrep.git
   brew tap jesseduffield/lazydocker
   brew_list=$(cat "$brew_pkgs_list")
@@ -141,7 +141,7 @@ setup_ngrok() {
 install_pip_packages() {
   e_header "Stage: installing pip packages"
   pip_pkgs_list=$1
-  pip install -U -r "$pip_pkgs_list"
+  pip3 install -U -r "$pip_pkgs_list"
   if [[ $? -ne 0 ]]; then
     e_error "Failed to install pip pkgs"
   else
@@ -277,10 +277,11 @@ setup_go() {
   go get github.com/posener/complete/gocomplete
   go install github.com/posener/complete/gocomplete
   "${HOME}/go/bin/gocomplete" -install
+  go get golang.org/x/tools/gopls
 }
 
 install_albert() {
-  wget -O /tmp/albert.deb https://download.opensuse.org/repositories/home:/manuelschneid3r/Debian_9.0/amd64/albert_0.16.1_amd64.deb
+  wget -O /tmp/albert.deb https://download.opensuse.org/repositories/home:/manuelschneid3r/Debian_10/amd64/albert_0.16.1_amd64.deb
   dpkg -i /tmp/albert.deb
 }
 
@@ -315,9 +316,10 @@ while getopts "adgcAPGSNBDho" opt; do
       exesudo install_pip_packages "$DIRNAME"/pkgs/pip
       exesudo install_gem_packages "$DIRNAME"/pkgs/gem
       exesudo install_npm_packages "$DIRNAME"/pkgs/npm
+      setup_brew "$DIRNAME"/pkgs/brew
+      setup_go
       exesudo install_albert
       configure_git_repos "$DIRNAME"/pkgs/git
-      setup_brew "$DIRNAME"/pkgs/brew
       setup_ngrok
       # Disabled due albert
       # clone_bin_from_url cerebro https://github.com/KELiON/cerebro/releases/download/v0.3.1/cerebro-0.3.1-x86_64.AppImage
@@ -361,11 +363,11 @@ while getopts "adgcAPGSNBDho" opt; do
     c)
       configure_vim
     ;;
-    h)
-      print_help
-    ;;
     o)
       setup_go
+    ;;
+    h)
+      print_help
     ;;
     *)
       echo "Invalid option"

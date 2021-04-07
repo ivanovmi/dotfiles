@@ -9,7 +9,6 @@ bd
 bluez-obexd
 bpython
 bpython3
-browser-plugin-vlc
 bzip2
 ca-certificates
 ca-certificates-java
@@ -17,6 +16,7 @@ cabextract
 ttf-mscorefonts-installer
 comerr-dev
 cowsay
+ctags
 dconf-editor
 default-jdk
 default-jdk-headless
@@ -24,8 +24,7 @@ default-jre
 default-jre-headless
 desktop-file-utils
 dnsutils
-docker
-docker-engine
+docker-ce
 dpkg-dev
 expect
 ffmpeg
@@ -36,7 +35,6 @@ git-man
 git-review
 gparted
 gzip
-hardening-includes
 hddtemp
 hh
 htop
@@ -44,7 +42,6 @@ icedtea-netx:amd64
 icedtea-netx-common
 jq
 software-properties-common
-kodi
 links2
 lm-sensors
 lolcat
@@ -75,7 +72,6 @@ rake
 rbenv
 ruby-dev
 remmina
-remmina-common
 remmina-plugin-rdp
 remmina-plugin-vnc
 screenfetch
@@ -97,7 +93,6 @@ toilet-fonts
 traceroute
 tree
 vagrant
-vapoursynth-python3
 virtualenv
 vivaldi-stable
 vk
@@ -115,17 +110,17 @@ file
 snapd
 groovy
 ffmpegthumbnailer
-virtualbox-5.2
+virtualbox-6.1
 libinput-tools
 sshuttle
 numix-icon-theme-circle
 python-neovim
 python3-neovim
 ruby-neovim
+ruby-dev
 libc6
 libgcc1
 libmuparser2v5
-libpython3.5
 libqt5concurrent5
 libqt5core5a
 libqt5dbus5
@@ -142,3 +137,4 @@ libx11-6
 libxext6
 libqt5sql5-sqlite
 zeal
+wmctrl

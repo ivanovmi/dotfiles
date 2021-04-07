@@ -1,2 +1,2 @@
-deb http://ppa.launchpad.net/team-xbmc/ppa/ubuntu xenial main
-# deb-src http://ppa.launchpad.net/team-xbmc/ppa/ubuntu xenial main
+deb http://ppa.launchpad.net/team-xbmc/ppa/ubuntu bionic main
+# deb-src http://ppa.launchpad.net/team-xbmc/ppa/ubuntu bionic main

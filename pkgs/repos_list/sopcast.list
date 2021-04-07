@@ -1,2 +1,2 @@
-deb http://ppa.launchpad.net/linuxthebest.net/sopcast/ubuntu xenial main
-# deb-src http://ppa.launchpad.net/linuxthebest.net/sopcast/ubuntu xenial main
+deb http://ppa.launchpad.net/linuxthebest.net/sopcast/ubuntu bionic main
+# deb-src http://ppa.launchpad.net/linuxthebest.net/sopcast/ubuntu bionic main

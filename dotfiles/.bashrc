@@ -171,3 +171,5 @@ export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file s
 if [ -f ~/.bash_exports ]; then
   . ~/.bash_exports
 fi
+
+complete -C /home/mivanov/go/bin/gocomplete go

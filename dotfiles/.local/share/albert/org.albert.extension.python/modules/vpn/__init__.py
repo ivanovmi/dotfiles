@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 
-"""
-VPN toggle based on nmcli
-"""
+"""VPN toggle based on nmcli
 
-from albertv0 import FuncAction, Item
+This is simple extension for switching state for given vpn name
+
+Synopsis: <trigger> <vpn name>"""
+
+from albert import FuncAction, Item
 import subprocess
 import os
 
 __iid__ = "PythonInterface/v0.1"
-__prettyname__ = "VPN Toggle"
-__version__ = "1.0"
-__trigger__ = "vpn "
-__author__ = "mivanov"
-__dependencies__ = ["nmcli"]
+__title__ = "VPN Toggle"
+__version__ = "0.4.0"
+__triggers__ = "vpn "
+__authors__ = "mivanov"
+__exec_deps__ = ["nmcli"]
 
 iconPath = os.path.dirname(__file__) + "/vpn.svg"
 
@@ -35,14 +37,14 @@ def toggle_vpn(vpn_name, active_vpns):
 
 def handleQuery(query):
     if not query.isTriggered:
-        return None
+        return  # None
     items = []
     vpn_names = filter_vpn()
     active_vpn_names = filter_vpn(active=True)
     for vpn in vpn_names:
         st = "Disable" if vpn in active_vpn_names else "Enable"
         items.append(Item(
-            id=__prettyname__,
+            id=__title__,
             icon=iconPath,
             text=vpn,
             subtext="{} VPN connection".format(st),
