@@ -40,3 +40,6 @@ function mkdircd {
   mkdir -p "$@" && eval cd "\"\$$#\"";
 }
 
+function restart_dde {
+  ps axu | grep '[s]tartdde' | awk '{ print $2 }' | xargs -n 1 kill -9
+}

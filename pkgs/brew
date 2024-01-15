@@ -8,3 +8,10 @@ lazydocker
 angle-grinder
 derailed/k9s/k9s
 glow
+kubectl
+helm
+grex
+git-delta
+golangci-lint
+tmuxinator
+bazelisk

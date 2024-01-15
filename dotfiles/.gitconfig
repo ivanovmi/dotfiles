@@ -1,10 +1,21 @@
 [user]
-	email = mivanov@mirantis.com
-	name = Mikhail Ivanov
+  email = mivanov@mirantis.com
+  name = Mikhail Ivanov
 [core]
-	excludesfile = ~/.gitignore_global
-[pager]
-    diff = diff-so-fancy | less --tabs=4 -RFX
+  excludesfile = ~/.gitignore_global
+  pager = delta
+[delta]
+  plus-style = "syntax #012800"
+  minus-style = "syntax #340001"
+  syntax-theme = Monokai Extended
+  line-numbers = true
+  navigate = true
+  side-by-side = true
+[interactive]
+  diffFilter = delta --color-only
+# Replaced by git-delta
+#[pager]
+#  diff = diff-so-fancy | less --tabs=4 -RFX
 [alias]
   graph = log --pretty=oneline -n 20 --graph --abbrev-commit
   contributors = shortlog --summary --numbered
@@ -15,6 +26,13 @@
   pushInsteadOf = "gh:"
   pushInsteadOf = "git://github.com/"
 [cola]
-	spellcheck = false
+  spellcheck = false
 [url "ssh://mivanov@gerrit.mcp.mirantis.com:29418/"]
-	insteadOf = https://gerrit.mcp.mirantis.com/a/
+  insteadOf = https://gerrit.mcp.mirantis.com/a/
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[safe]
+	directory = /home/mivanov/go/src/sigs.k8s.io/cluster-api-provider-openstack
+	directory = /home/mivanov/go/src/sigs.k8s.io/cluster-api-provider-openstack
+	directory = /home/mivanov/go/src/sigs.k8s.io/cluster-api-provider-openstack

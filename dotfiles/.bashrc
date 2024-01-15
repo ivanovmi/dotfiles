@@ -173,3 +173,10 @@ if [ -f ~/.bash_exports ]; then
 fi
 
 complete -C /home/mivanov/go/bin/gocomplete go
+
+# Deepin broke kb layout switch, so
+# setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

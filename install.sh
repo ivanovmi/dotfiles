@@ -278,6 +278,9 @@ setup_go() {
   go install github.com/posener/complete/gocomplete
   "${HOME}/go/bin/gocomplete" -install
   go get golang.org/x/tools/gopls
+  go get -u github.com/hhatto/gocloc/cmd/gocloc
+  go get -v github.com/rogpeppe/godef
+  go get -v golang.org/x/tools/cmd/guru
 }
 
 install_albert() {

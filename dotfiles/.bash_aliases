@@ -45,3 +45,4 @@ alias paste="xclip -selection clipboard -o"
 alias myip="python -c 'import psutil; import terminaltables; addrs=psutil.net_if_addrs(); table_data=[[\"Interface\", \"Address\"]]; [table_data.append([i, addrs[i][0].address]) for i in addrs]; table = terminaltables.AsciiTable(table_data); print table.table'"
 
 alias tldr="tldr -t base16"
+alias fd="fdfind"

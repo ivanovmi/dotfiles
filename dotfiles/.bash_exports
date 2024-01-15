@@ -1,4 +1,22 @@
-export PS1="\\[\\033[01;31m\\]\\u\\[\\033[01;33m\\]@\\[\\033[01;36m\\]\\h\\[\\033[01;33m\\] \\w\\[\\033[0;92m\\]\$(parse_git_branch)\\[\\033[01;35m\\] \\$~> \\[\\033[00m\\]"
+#export PS1="\\[\\033[01;31m\\]\\u\\[\\033[01;33m\\]@\\[\\033[01;36m\\]\\h\\[\\033[01;33m\\] \\w\\[\\033[0;92m\\]\$(parse_git_branch)\\[\\033[01;35m\\] \\$~> \\[\\033[00m\\]"
+export PS1='$(gbt $?)'
+export GBT_CARS='Status, Os, Hostname, Dir, PyVirtEnv, Kubectl, Git, Sign'
+# Hostname config
+export GBT_CAR_HOSTNAME_BG='black'
+export GBT_CAR_HOSTNAME_USER_FG='red'
+export GBT_CAR_HOSTNAME_HOST_FG='cyan'
+# Dir config
+export GBT_CAR_DIR_FG='yellow'
+export GBT_CAR_DIR_DEPTH='9999'
+# Symbol config
+export GBT_CAR_OS_SYMBOL_FG='white'
+# PyVirtEnv config
+export VIRTUAL_ENV_DISABLE_PROMPT='1'
+export GBT_CAR_PYVIRTENV_WRAP='1'
+# Kubectl config
+export GBT_CAR_KUBECTL_WRAP='1'
+
+
 export EDITOR='nvim'
 
 source ~/bin/tmuxinator.bash
@@ -11,11 +29,12 @@ export GOBIN=$HOME/go/bin
 export BREW_HOME=/home/linuxbrew/.linuxbrew
 export BREW_BIN=$BREW_HOME/bin
 export KREW_PATH=$HOME/.krew/bin
+export RBENV_PATH=$HOME/.rbenv/shims
 
 export MANPATH="$BREW_HOME/share/man:$MANPATH"
 export INFOPATH="$BREW_HOME/share/info:$INFOPATH"
 
-export PATH=$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$GOBIN:$PATH:$BREW_BIN:$KREW_PATH:$RUBY_PATH:$HOME/bin
+export PATH=$RBENV_PATH:$GROOVY_HOME/bin:$GOPATH:$GO_HOME:$GOBIN:$PATH:$BREW_BIN:$KREW_PATH:$RUBY_PATH:$HOME/bin:$HOME/.local/bin
 
 [[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
 
